@@ -8,7 +8,7 @@ This project summarizes videos using AI-powered tools.
 Run the following command:  
 ```bash
 git clone https://github.com/bv295/MajorProject-summarizer-.git
-cd ai-videoSummarizer
+cd MajorProject-summarizer-
 
 ```
 
