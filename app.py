@@ -5,8 +5,8 @@ import re
 import os
 
 # Load API key from Streamlit secrets
-GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-API_KEY = st.secrets["YOUTUBE_API_KEY"]
+GEMINI_API_KEY = st.secrets["secrets"]["GEMINI_API_KEY"]
+API_KEY = st.secrets["secrets"]["YOUTUBE_API_KEY"]
 
 # Configure Gemini API
 if not GEMINI_API_KEY:
