@@ -1,16 +1,17 @@
 import streamlit as st
 import google.generativeai as genai
-import googleapiclient.discovery
+from youtube_transcript_api import YouTubeTranscriptApi
 import re
 import os
+from dotenv import load_dotenv
 
-# Load API key from Streamlit secrets
-GEMINI_API_KEY = st.secrets["secrets"]["GEMINI_API_KEY"]
-API_KEY = st.secrets["secrets"]["YOUTUBE_API_KEY"]
+# Load environment variables
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Configure Gemini API
 if not GEMINI_API_KEY:
-    st.error("API key is missing! Add it to your Streamlit secrets.")
+    st.error("API key is missing! Add it to your .env file.")
 else:
     genai.configure(api_key=GEMINI_API_KEY)
 
@@ -31,19 +32,11 @@ def extract_video_id(url):
     return None  # Invalid URL
 
 def get_youtube_transcript(video_id):
-    """Fetches transcript of a YouTube video using YouTube Data API."""
+    """Fetches transcript of a YouTube video."""
     try:
-        youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=API_KEY)
-        response = youtube.captions().list(part="snippet", videoId=video_id).execute()
-        
-        captions = response.get("items", [])
-        if not captions:
-            return "No subtitles available."
-
-        caption_id = captions[0]["id"]
-        caption_response = youtube.captions().download(id=caption_id).execute()
-
-        return caption_response.decode("utf-8")
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        text = " ".join([t["text"] for t in transcript])
+        return text
     except Exception as e:
         return f"Error: {str(e)}"
 
