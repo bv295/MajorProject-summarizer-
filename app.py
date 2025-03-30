@@ -7,8 +7,7 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-
+GEMINI_API_KEY = st.secrets["secrets"]["GEMINI_API_KEY"]
 # Configure Gemini API
 if not GEMINI_API_KEY:
     st.error("API key is missing! Add it to your .env file.")
